@@ -31,9 +31,12 @@ namespace BS_23_PracticalTest.Models
         public DateTime DateAdded { get; set; }
 
         [Required]
-        public int Like { get; set; }
+        public int CmtLikes { get; set; }
 
         [Required]
-        public int DisLike { get; set; }
+        public int CmtDisLikes { get; set; }
+
+        [Required]
+        public int CommentNo { get; set; }
     }
 }

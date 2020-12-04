@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BS_23_PracticalTest;
 using BS_23_PracticalTest.Models;
+using BS_23_PracticalTest.Models.VM;
 using BS_23_PracticalTest.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,6 +29,20 @@ namespace APP.Controllers.Common
           
             return View();
         }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateComment([FromBody] UpdateCommentVM entity)
+        {
+            var comment = await db.PostCommentList.FirstOrDefaultAsync(x => x.Id == entity.CommentId);
+            if (comment != null) {
+
+                if (entity.State == "Like") { comment.CmtLikes = comment.CmtLikes + 1; } else { comment.CmtDisLikes = comment.CmtDisLikes + 1; }
+                db.PostCommentList.Update(comment);
+               await db.SaveChangesAsync();
+            }
+            return Json("true");
+        }  
+
         [HttpPost]
         public async Task<JsonResult> SaveComment([FromBody] PostComment entity)
         {
@@ -39,8 +54,9 @@ namespace APP.Controllers.Common
                 entity.ApplicationUserId = userId;
                 entity.DateAdded = DateTime.UtcNow;
                 entity.Id = db.GenerateUniqueId();
-                entity.Like = 0;
-                entity.DisLike = 0;
+                entity.CommentNo = db.PostCommentList.Where(x => x.MasterPostId == entity.MasterPostId).Count() + 1;
+                entity.CmtLikes = 0;
+                entity.CmtDisLikes = 0;
                 await db.AddAsync(entity);
                 await db.SaveChangesAsync();
                 return Json("true");
