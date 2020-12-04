@@ -32,6 +32,8 @@ namespace BS_23_PracticalTest
         public DbSet<ApplicationUser> ApplicationUserList { get; set; }
 
         public DbSet<MasterPost> MasterPostList { get; set; }
+
+        public DbSet<PostComment> PostCommentList { get; set; }
         
         public string GenerateUniqueId()
         {

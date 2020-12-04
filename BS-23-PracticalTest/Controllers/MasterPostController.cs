@@ -78,7 +78,7 @@ namespace APP.Controllers.Common
         public async Task<JsonResult> GetTableData()
         {
            
-            var data = CoreService.GetDataDictCollection(@"Select MP.Id,MP.PostDetails,MP.DateAdded,'Post '+ Cast(MP.PostNo as varchar) PostNo,u.Name from MasterPost MP
+            var data = CoreService.GetDataDictCollection(@"Select MP.Id,MP.PostDetails,MP.DateAdded,'Post '+ Cast(MP.PostNo as varchar) PostNo,u.Name,NoOfComment=(Select Count(Id) from PostComment where MasterPostId=Mp.Id) from MasterPost MP
                                                         inner join AspNetUsers u on u.Id = MP.ApplicationUserId
                                                         order by MP.PostNo asc");
             return Json(data);

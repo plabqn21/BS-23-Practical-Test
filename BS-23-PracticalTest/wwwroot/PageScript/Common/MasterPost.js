@@ -78,7 +78,7 @@ function BindDataToTabular(tabledata, table) {
                     invalidPlaceholder: "---",
                 }, width: 120
             },
-           
+            { title: "No. <br/>Of Comment", field: "NoOfComment", headerFilter: "input", width: 150},
             
 
         ],
