@@ -79,11 +79,12 @@ namespace APP.Controllers.Common
         {
            
             var data = CoreService.GetDataDictCollection(@"Select MP.Id,MP.PostDetails,MP.DateAdded,'Post '+ Cast(MP.PostNo as varchar) PostNo,u.Name,
-NoOfComment=(Select Count(Id) from PostComment where MasterPostId=Mp.Id),pc.CommentDetails,pc.CmtDisLikes,pc.CmtLikes,pc.CommentNo from 
+NoOfComment=(Select Count(Id) from PostComment where MasterPostId=Mp.Id),pc.CommentDetails,LikeDisLike='Like '+ Cast(pc.CmtLikes as varchar)+' Dislike '+cast(pc.CmtDisLikes as varchar),pc.CommentNo from 
 MasterPost MP
-inner join AspNetUsers u on u.Id = MP.ApplicationUserId
+
 Left Join PostComment pc on pc.MasterPostId=MP.Id
-                                                        order by MP.PostNo asc");
+left join AspNetUsers u on u.Id =pc.ApplicationUserId
+                                                        order by MP.PostNo,pc.CommentNo asc");
             return Json(data);
         }
         [HttpGet]

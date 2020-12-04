@@ -66,11 +66,13 @@ function BindDataToTabular(tabledata, table) {
         paginationSize: 10,
         paginationSizeSelector: [10, 20, 30, 40],
         movableColumns: true,
+        groupBy: "PostNo",
         columns: [
-            { title: "Id", field: "Id", visible: false },
-            { title: "Post No", field: "PostNo", headerFilter: "input" },
-            { title: "User", field: "Name", headerFilter: "input" },
-            { title: "Post Details", field: "PostDetails", headerFilter: "input", width: 500 },
+            { title: "Id", field: "Id", visible: false },          
+            { title: "Comment", field: "CommentDetails", headerFilter: "input", width: 500 },
+            
+            { title: "User", field: "Name", headerFilter: "input", width: 150},
+           
             {
                 title: "Date", field: "DateAdded", headerFilter: "input", formatter: "datetime", align: "center", formatterParams: {
                     inputFormat: "YYYY-MM-DD",
@@ -80,7 +82,7 @@ function BindDataToTabular(tabledata, table) {
             },
             { title: "No. <br/>Of Comment", field: "NoOfComment", headerFilter: "input", width: 150},
             
-
+            { title: "Status", field: "LikeDisLike", headerFilter: "input", width: 150 },
         ],
         rowClick: function (e, row) {
 
