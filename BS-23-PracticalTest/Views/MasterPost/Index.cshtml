@@ -1,0 +1,40 @@
+﻿
+<title>Post</title>
+<form id="frmMasterPost" method="post">
+
+    <input type="hidden" id="Id" />
+    
+
+    <div class="row">
+        <div class="col-md-12">
+       
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text alert-primary" id="inputGroup-sizing-sm">Post Details</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="PostDetails">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<div class="text-right">
+
+    <input id="btnSaveMasterPost" type="button" class="btn btn-success btn-sm" value="Save" name="Save-Button" />
+    <input id="btnRefreshMasterPost" type="button" class="btn btn-info btn-sm" value="Refresh" />
+    <input id="btnDeleteMasterPost" type="button" class="btn btn-danger btn-sm" value="Delete" />
+</div>
+
+<div class="col-md-12">
+    <hr class="progress-bar col-md-12" />
+</div>
+<div id="tblMasterPost"></div>
+@section Scripts {
+    <script src="~/PageScript/Common/MasterPost.js"></script>
+}
