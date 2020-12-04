@@ -38,6 +38,8 @@ namespace APP.Controllers.Common
                 try
                 {
                     var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                    if (userId == "" || userId == null) { return Json("Please Login first"); }
                     entity.ApplicationUserId = userId;
                     if (entity.Id == null || entity.Id == "")
                     {
