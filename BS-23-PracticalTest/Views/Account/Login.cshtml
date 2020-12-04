@@ -1,0 +1,46 @@
+﻿@model BS_23_PracticalTest.Models.VM.SignInVM
+
+
+<body>
+
+    <div class="align-content-center">
+        
+             
+
+                <form class="login100-form validate-form" asp-action="Login">
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+                        <span class="label-input100">Email/Mobile</span>
+                        @Html.TextBoxFor(m => m.UserCode, new { @class = "input100" })
+                        @Html.ValidationMessageFor(m => m.UserCode, "", new { @class = "text-danger" })
+                        @*<input class="input100" id="UserName" type="text" name="username" placeholder="Enter usercode">*@
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+                        <span class="label-input100">Password</span>
+                        @Html.PasswordFor(m => m.Password, new { @class = "input100" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        @*<input class="input100" type="password" name="pass" id="Password" placeholder="Enter password">*@
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="row" style=" text-align:right">
+                       
+
+                        <button class="btn btn-primary" type="submit">
+                            Login
+                        </button>
+
+                    </div>
+                </form>
+               
+            </div>
+
+    
+   
+
+    
+</body>
