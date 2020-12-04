@@ -45,10 +45,7 @@ function ValidateFormData(formId) {
     fieldForValidationMsg.push("Mobile"); // Message to show
     fieldForValidation.push("Email"); //id of text box
     fieldForValidationMsg.push("Email"); // Message to show
-    fieldForValidation.push("Status"); //id of text box
-    fieldForValidationMsg.push("Status"); // Message to show
-    fieldForValidation.push("Role"); //id of text box
-    fieldForValidationMsg.push("Role"); // Message to show
+   
     fieldForValidation.push("Password"); //id of text box
     fieldForValidationMsg.push("Password"); // Message to show
     fieldForValidation.push("ConfirmPassword"); //id of text box
@@ -85,8 +82,7 @@ function BindDataToTabular(tabledata, table) {
             { title: "Email", field: "Email", align: "center", headerFilter: "input", width: 180},
             { title: "Mobile", field: "PhoneNumber", align: "center", headerFilter: "input", width: 120},           
             { title: "Role", field: "Role", align: "center", headerFilter: "input", width: 200},
-            { title: "Status", field: "Status", align: "center", headerFilter: "input", width: 120},
-            { title: "Org Access", field: "HasOrgAccess", align: "center", formatter: "tickCross", width: 100},
+           
         ],
         initialSort: [
             { column: "UserName", dir: "asc" }, //sort by this first

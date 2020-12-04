@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BS_23_PracticalTest.Models;
+using BS_23_PracticalTest.Models.VM;
+using BS_23_PracticalTest.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +17,11 @@ namespace BS_23_PracticalTest.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ApplicationDbContext db;
-       
+        private ICoreService CoreService;
 
-        public AccountController( RoleManager<CustomRole> roleManager, ApplicationDbContext odb, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(ICoreService oCoreService, RoleManager<CustomRole> roleManager, ApplicationDbContext odb, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-           
+            CoreService = oCoreService;
             this.roleManager = roleManager;
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -136,140 +138,132 @@ namespace BS_23_PracticalTest.Controllers
         }
         #endregion End Role
 
-        //#region User
-        //[HttpGet]
+        #region User
+        [HttpGet]
 
-        //public async Task<IActionResult> AddUser()
-        //{
-        //    await InitializeDropdownAsync();
-        //    return View();
-        //}
+        public async Task<IActionResult> AddUser()
+        {
+            await InitializeDropdownAsync();
+            return View();
+        }
 
-        //[HttpPost]
+        [HttpPost]
 
-        //public async Task<JsonResult> AddUser([FromBody] ApplicationUserVM odata)
-        //{
-        //    var response = "false";
-        //    try
-        //    {
-        //        if (odata.Id == "Test-Branch-Admin" || odata.Id == "Test-Branch-SalesMan" || odata.Id == "ApplicationAdmin") { return Json("Test data can not be moified."); }
-        //        var BranchId = HttpContext.Session.GetObject<ApplicationUser>("UserSession").BranchId;
-        //        var email = await db.ApplicationUserList.AsNoTracking().FirstOrDefaultAsync(x => x.Id != odata.Id && (x.PhoneNumber == odata.PhoneNumber || x.Email == odata.Email));
-        //        if (email != null)
-        //        {
-        //            return Json("Email or Mobile was already registered. Try another.");
-        //        }
-        //        if (odata.Id == null || odata.Id == "")
-        //        {
+        public async Task<JsonResult> AddUser([FromBody] ApplicationUserVM odata)
+        {
+            var response = "false";
+            try
+            {
+               
+                var email = await db.ApplicationUserList.AsNoTracking().FirstOrDefaultAsync(x => x.Id != odata.Id && (x.PhoneNumber == odata.PhoneNumber || x.Email == odata.Email));
+                if (email != null)
+                {
+                    return Json("Email or Mobile was already registered. Try another.");
+                }
+                if (odata.Id == null || odata.Id == "")
+                {
 
-        //            var UserCount = await db.ApplicationUserList.Where(x => x.BranchId == BranchId).CountAsync();
-        //            if (UserCount > 1)
-        //            {
-        //                return Json("You can not add more user. If required contact customer care.");
-        //            }
-        //            if (odata.Password != odata.ConfirmPassword)
-        //            {
-        //                return Json("Password and Confirm Password should be same.");
-        //            }
-        //            var branch = db.BranchList.AsNoTracking().FirstOrDefault(x => x.Id == BranchId);
-        //            var UserName = (branch.BranchCode) + ((db.ApplicationUserList.AsNoTracking().Where(x => x.BranchId == branch.Id).Count() + 1).ToString());
-        //            var User = new ApplicationUser
-        //            {
-        //                Id = db.GenerateUniqueId(),
-        //                Email = odata.Email,
-        //                PhoneNumber = odata.PhoneNumber,
-        //                UserName = UserName,
-        //                Name = odata.Name,
-        //                BranchId = branch.Id,
-        //                Role = odata.Role,
-        //                CompanyId = branch.CompanyId,
-        //                Status = odata.Status
-        //            };
-        //            var result = await userManager.CreateAsync(User, odata.Password);
-        //            if (result.Succeeded)
-        //            {
-        //                var role = await db.CustomRoleList.AsNoTracking().SingleAsync(x => x.Id == odata.Role);
-        //                var Roleassignment = await userManager.AddToRoleAsync(User, role.Name);
-        //                if (Roleassignment.Succeeded)
-        //                {
-        //                    return Json("true");
-        //                }
-        //                else { return Json("false"); }
-        //            }
-        //            else { return Json(result); }
+                    if (odata.Password != odata.ConfirmPassword)
+                    {
+                        return Json("Password and Confirm Password should be same.");
+                    }
 
-        //        }
+                    var username = db.ApplicationUserList.Count().ToString();
+                    var User = new ApplicationUser
+                    {
+                        Id = db.GenerateUniqueId(),
+                        Email = odata.Email,
+                        PhoneNumber = odata.PhoneNumber,
+                        UserName = username,
+                        Name = odata.Name,
+                        CustomRoleId=odata.CustomRoleId
+                       
+                       
+                    };
+                    var result = await userManager.CreateAsync(User, odata.Password);
+                    if (result.Succeeded)
+                    {
+                        var role = await db.CustomRoleList.AsNoTracking().SingleAsync(x => x.Id == odata.CustomRoleId);
+                        var Roleassignment = await userManager.AddToRoleAsync(User, role.Name);
+                        if (Roleassignment.Succeeded)
+                        {
+                            return Json("true");
+                        }
+                        else { return Json("false"); }
+                    }
+                    else { return Json(result); }
 
-        //        else
-        //        {
-        //            var user = db.ApplicationUserList.AsNoTracking().FirstOrDefault(x => x.Id == odata.Id);
-        //            var role = await db.CustomRoleList.AsNoTracking().SingleAsync(x => x.Id == user.Role);
-        //            var Roleremove = await userManager.RemoveFromRoleAsync(user, role.Name);
-        //            if (user != null)
-        //            {
-        //                user.Email = odata.Email;
-        //                user.PhoneNumber = odata.PhoneNumber;
-        //                user.Name = odata.Name;
-        //                user.Role = odata.Role;
-        //                user.Status = odata.Status;
-        //                user.HasOrgAccess = odata.HasOrgAccess;
-        //                var result = await userManager.UpdateAsync(user);
-        //                var Newrole = await db.CustomRoleList.AsNoTracking().SingleAsync(x => x.Id == user.Role);
-        //                await userManager.AddToRoleAsync(user, Newrole.Name);
-        //                if (result.Succeeded)
-        //                {
-        //                    return Json("true");
-        //                }
-        //                else { return Json(result); }
-        //            }
+                }
 
-        //        }
+                else
+                {
+                    var user = db.ApplicationUserList.AsNoTracking().FirstOrDefault(x => x.Id == odata.Id);
+                    var role = await db.CustomRoleList.AsNoTracking().SingleAsync(x => x.Id == user.CustomRoleId);
+                    var Roleremove = await userManager.RemoveFromRoleAsync(user, role.Name);
+                    if (user != null)
+                    {
+                        user.Email = odata.Email;
+                        user.PhoneNumber = odata.PhoneNumber;
+                        user.Name = odata.Name;
+                        user.CustomRoleId = odata.CustomRoleId;
+                        
+                        var result = await userManager.UpdateAsync(user);
+                        var Newrole = await db.CustomRoleList.AsNoTracking().SingleAsync(x => x.Id == user.CustomRoleId);
+                        await userManager.AddToRoleAsync(user, Newrole.Name);
+                        if (result.Succeeded)
+                        {
+                            return Json("true");
+                        }
+                        else { return Json(result); }
+                    }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return Json(response);
-        //}
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Json(response);
+        }
 
 
-        //public JsonResult GetApplicationUserTableData()
-        //{
-        //    var BranchId = HttpContext.Session.GetObject<ApplicationUser>("UserSession").BranchId;
-        //    var Userlist = CoreService.GetDataDictCollection($@"Select au.Id,au.UserName,au.Email, au.PhoneNumber, au.Name, au.BranchId, AspNetRoles.RoleName as Role, au.Status,'999999' as Password , '999999' as ConfirmPassword,au.HasOrgAccess from ASPNETUSERS au
-        //                                                    inner join AspNetRoles on AspNetRoles.Id = au.Role where au.BranchId='{BranchId}' and au.Role !='ApplicationAdmin' order by au.Name asc");
-        //    return Json(Userlist);
-        //}
+        public JsonResult GetApplicationUserTableData()
+        {
+            
+            var Userlist = CoreService.GetDataDictCollection($@"Select au.Id,au.UserName,au.Email, au.PhoneNumber, au.Name, AspNetRoles.Name as Role from ASPNETUSERS au
+                                                            inner join AspNetRoles on AspNetRoles.Id = au.CustomRoleId order by au.Name asc");
+            return Json(Userlist);
+        }
 
-        //public async Task<JsonResult> GetSingleApplicationUser(string Id)
-        //{
-        //    var user = await CoreService.GetDataAsync($"Select Id,Email, PhoneNumber, Name, BranchId, Role, Status,'999999' as Password , '999999' as ConfirmPassword,HasOrgAccess from AspnetUsers where Id='{Id}'");
-        //    return Json(user);
-        //}
-        //public async Task<JsonResult> DeleteApplicationUser(string id)
-        //{
-        //    var user = await db.ApplicationUserList.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-        //    if (user.Id == "Test-Branch-Admin" || user.Id == "Test-Branch-SalesMan" || user.Id == "ApplicationAdmin") { return Json("Test data can not be moified."); }
-        //    if (user == null)
-        //    {
-        //        var ErrorMessage = $"No user found.";
-        //        return Json("false");
-        //    }
-        //    else
-        //    {
-        //        var result = await userManager.DeleteAsync(user);
+        public async Task<JsonResult> GetSingleApplicationUser(string Id)
+        {
+            var user = await CoreService.GetDataAsync($"Select Id,Email, PhoneNumber, Name,  CustomRoleId,'999999' as Password , '999999' as ConfirmPassword from AspnetUsers where Id='{Id}'");
+            return Json(user);
+        }
+        public async Task<JsonResult> DeleteApplicationUser(string id)
+        {
+            var user = await db.ApplicationUserList.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+           
+            if (user == null)
+            {
+                var ErrorMessage = $"No user found.";
+                return Json("false");
+            }
+            else
+            {
+                var result = await userManager.DeleteAsync(user);
 
-        //        if (result.Succeeded)
-        //        {
+                if (result.Succeeded)
+                {
 
-        //            return Json("true");
-        //        }
-        //        else { return Json("false"); }
-        //    }
-        //}
+                    return Json("true");
+                }
+                else { return Json("false"); }
+            }
+        }
 
-        //#endregion End User
+        #endregion End User
 
         //#region LogIn Logout
 
@@ -463,17 +457,12 @@ namespace BS_23_PracticalTest.Controllers
 
         //#endregion End LogIn Logout
 
-       
-        //private async Task InitializeDropdownAsync()
-        //{
-        //    var BranchId = HttpContext.Session.GetObject<ApplicationUser>("UserSession").BranchId;
-        //    ViewBag.Status = new List<SelectListItem>
-        //            {
-        //                new SelectListItem{ Text="Active", Value = "Active" },
-        //                new SelectListItem{ Text="Inactive", Value = "Inactive" },
-        //            };
-        //    ViewBag.Roles = await CoreService.LoadComboModel($"Select Id,RoleName from AspnetRoles with (nolock) where BranchId='{BranchId}' and Id!='ApplicationAdmin'", "Id", "RoleName"); ;
-        //}
+
+        private async Task InitializeDropdownAsync()
+        {
+            
+            ViewBag.Roles = await CoreService.LoadComboModel($"Select Id,Name from AspnetRoles with (nolock)", "Id", "Name"); ;
+        }
     }
 }
 

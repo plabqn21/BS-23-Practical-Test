@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BS_23_PracticalTest.Models;
+using BS_23_PracticalTest.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -45,7 +46,7 @@ namespace BS_23_PracticalTest
             #endregion
 
             #region Repository Registration 
-            //services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<ICoreService, CoreService>();
            
             #endregion
 

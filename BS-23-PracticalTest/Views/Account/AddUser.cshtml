@@ -1,0 +1,72 @@
+﻿<title>User</title>
+<form id="frmApplicationUser" method="post">
+
+    <input type="hidden" id="BranchId">
+    <input type="hidden" id="Id">
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text alert-primary" id="inputGroup-sizing-sm">Name</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="Name">
+            </div>
+
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text alert-primary" id="inputGroup-sizing-sm">Password</span>
+                </div>
+                <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="Password">
+
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text alert-primary" id="inputGroup-sizing-sm">Confirm Password</span>
+                </div>
+                <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="ConfirmPassword">
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text alert-primary" id="inputGroup-sizing-sm">Mobile</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="PhoneNumber">
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text alert-primary" id="inputGroup-sizing-sm">Role</span>
+                </div>
+                @Html.DropDownList("CustomRoleId", new SelectList(ViewBag.Roles, "Value", "Text"), "Select", new { @class = "form-control" })
+            </div>
+           
+        </div>
+        <div class="col-sm-3">
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text alert-primary" id="inputGroup-sizing-sm">Email</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="Email">
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+<div class="text-right">
+
+    <input id="btnSaveApplicationUser" type="button" class="btn btn-success btn-sm" value="Save" name="Save-Button" />
+    <input id="btnRefreshApplicationUser" type="button" class="btn btn-info btn-sm" value="Refresh" />
+    <input id="btnDeleteApplicationUser" type="button" class="btn btn-danger btn-sm" value="Delete" />
+</div>
+
+<div id="tblApplicationUser"></div>
+@section Scripts {
+    <script src="~/PageScript/Common/ApplicationUser.js"></script>
+}
