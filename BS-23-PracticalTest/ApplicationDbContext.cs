@@ -30,7 +30,10 @@ namespace BS_23_PracticalTest
       
         public DbSet<CustomRole> CustomRoleList { get; set; }
         public DbSet<ApplicationUser> ApplicationUserList { get; set; }
-     
 
+        public string GenerateUniqueId()
+        {
+            return Guid.NewGuid().ToString("N");
+        }
     }
 }

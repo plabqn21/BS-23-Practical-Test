@@ -1,0 +1,46 @@
+﻿<title>Role</title>
+<form id="frmCustomRole" method="post">
+
+    <input type="hidden" id="Id" />
+    <input type="hidden" id="Name" />
+    <input type="hidden" id="NormalizedName" />
+    <input type="hidden" id="ConcurrencyStamp" />
+   
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text alert-primary" id="inputGroup-sizing-sm">Role Name</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="RoleName">
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row">
+    </div>
+    <div class="row">
+    </div>
+</form>
+
+<div class="text-right">
+
+    <input id="btnSaveCustomRole" type="button" class="btn btn-success btn-sm" value="Save" name="Save-Button" />
+    <input id="btnRefreshCustomRole" type="button" class="btn btn-info btn-sm" value="Refresh" />
+    <input id="btnDeleteCustomRole" type="button" class="btn btn-danger btn-sm" value="Delete" />
+</div>
+
+
+<div class="col-md-12">
+    <br />
+    <hr class="progress-bar col-md-12" />
+</div>
+<div id="tblCustomRole"></div>
+
+@section Scripts {
+    <script src="~/PageScript/Common/CustomRole.js"></script>
+}
+

@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BS_23_PracticalTest</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    <script src="~/MasterScript/sweetalert2.all.js"></script>
+    <script src="~/MasterScript/moment.js"></script>
+    <link href="~/JqGrid/ui.jqgrid.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -43,6 +48,25 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="~/CustomDropdownSearch/select2.min.js"></script>
+    <link href="~/CustomDropdownSearch/select2.min.css" rel="stylesheet" />
+    <script src="~/MasterScript/popper.min.js"></script>
+    <script src="~/MasterScript/Master.js"></script>
+
+    <script src="~/MasterScript/jquery.blockUI.js"></script>
+    @*Tabulator-http://tabulator.info*@
+    <link href="~/Tabulator/dist/css/tabulator.css" rel="stylesheet" />
+    <script src="~/Tabulator/dist/js/tabulator.js"></script>
+    <script src="~/Tabulator/xlsx.full.min.js"></script>
+    <script src="~/Tabulator/pdf.js"></script>
+    <script src="~/Tabulator/jspdf.plugin.autotable.js"></script>
+    @*Tabulator End*@
+  
     @RenderSection("Scripts", required: false)
 </body>
 </html>

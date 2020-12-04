@@ -73,24 +73,13 @@ namespace BS_23_PracticalTest
 
             services.AddMvc(config =>
             {
-                var policy = new AuthorizationPolicyBuilder()
-                                .RequireAuthenticatedUser()
-                                .Build();
-                config.Filters.Add(new AuthorizeFilter(policy));
+                
             }).AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy
                     = null;
             });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-            {
-                options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = "/auth/accessdenied";
-                options.Cookie.IsEssential = true;
-                options.SlidingExpiration = true; // here 1
-                options.ExpireTimeSpan = TimeSpan.FromSeconds(10);// here 2
-            });
-
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
